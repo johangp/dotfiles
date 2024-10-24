@@ -6,5 +6,6 @@
       become: yes
       ansible.builtin.apt:
         name:
+          - bat
           - kitty
         state: present
