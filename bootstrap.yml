@@ -2,9 +2,9 @@
 - name: Setup dotfiles
   hosts: default
   tasks:
-    - name: Update and upgrade apt packages
+    - name: Install packages with apt
       become: yes
-      apt:
-        update_cache: yes
-        upgrade: dist
-
+      ansible.builtin.apt:
+        name:
+          - kitty
+        state: present
