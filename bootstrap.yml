@@ -9,5 +9,6 @@
           - bat
           - i3
           - kitty
+          - neovim
           - tmux
         state: present
