@@ -1,0 +1,10 @@
+---
+- name: Setup dotfiles
+  hosts: default
+  tasks:
+    - name: Update and upgrade apt packages
+      become: yes
+      apt:
+        update_cache: yes
+        upgrade: dist
+
