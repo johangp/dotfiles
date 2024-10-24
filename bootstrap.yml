@@ -8,4 +8,5 @@
         name:
           - bat
           - kitty
+          - tmux
         state: present
