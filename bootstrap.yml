@@ -11,4 +11,12 @@
           - kitty
           - neovim
           - tmux
+          - zsh
         state: present
+
+    - name: Run Oh My Zsh installation script
+      shell: |
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      become: no
+      environment:
+        ZSH: "/home/{{ ansible_user_id }}/.oh-my-zsh"
