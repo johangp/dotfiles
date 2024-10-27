@@ -1,0 +1,8 @@
+^/inventory
+^/install.sh
+^/bootstrap.yml
+^/\.git
+^/\.gitignore
+^/README.md
+^/\.vagrant
+^/Vagrantfile
