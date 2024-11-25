@@ -9,11 +9,18 @@
           - bat
           - i3
           - kitty
-          - neovim
           - stow
           - tmux
           - zsh
         state: present
+
+    - name: Install packages with snap
+      become: yes
+      community.general.snap:
+        name:
+          - nvim
+        state: present
+        classic: true
 
     - name: Run Oh My Zsh installation script
       shell: |
