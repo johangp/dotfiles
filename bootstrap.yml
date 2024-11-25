@@ -31,6 +31,38 @@
       environment:
         ZSH: "/home/{{ ansible_user_id }}/.oh-my-zsh"
 
+    - name: Download FiraCode Nerd Font
+      ansible.builtin.shell: |
+        curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz
+      args:
+        chdir: "{{ ansible_env.HOME }}"
+      register: download_result
+      changed_when: download_result.rc == 0
+
+    - name: Create fonts directory
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.local/share/fonts"
+        state: directory
+        mode: '0755'
+
+    - name: Extract FiraCode Nerd Font
+      ansible.builtin.shell: |
+        tar -xf FiraCode.tar.xz -C "{{ ansible_env.HOME }}/.local/share/fonts"
+      args:
+        chdir: "{{ ansible_env.HOME }}"
+      register: extract_result
+      changed_when: extract_result.rc == 0
+
+    - name: Remove the tar file
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/FiraCode.tar.xz"
+        state: absent
+
+    - name: Refresh font cache
+      ansible.builtin.shell: |
+        fc-cache -fv
+      changed_when: false
+
     - name: Remove files that will conflict with Stow
       loop:
         - .zshrc
