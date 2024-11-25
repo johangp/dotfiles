@@ -74,9 +74,15 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
+
+  # ANSIBLE
   config.vm.provision "ansible_local" do |ansible|
     ansible.playbook = "bootstrap.yml"
     ansible.verbose = true
     ansible.inventory_path = "inventory"
   end
+
+  config.vm.provision "shell", inline: <<-SHELL
+  sudo chsh -s $(which zsh) vagrant  # Set Zsh as the default shell
+  SHELL
 end
