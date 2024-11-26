@@ -8,11 +8,18 @@
         name:
           - build-essential
           - bat
-          - i3
           - kitty
           - stow
           - tmux
           - zsh
+        state: present
+
+    - name: Install i3 packages with apt
+      become: yes
+      ansible.builtin.apt:
+        name:
+          - i3
+          - feh
         state: present
 
     - name: Install packages with snap
