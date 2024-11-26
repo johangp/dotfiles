@@ -30,3 +30,6 @@ fi
 
 # uv
 export PATH="/home/johan/.local/bin:$PATH"
+
+# Set the keyboard layout
+setxkbmap -layout us -variant altgr-intl
