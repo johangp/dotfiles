@@ -68,6 +68,8 @@
       loop:
         - .zshrc
         - .tmux.conf
+        - .profile
+        - .wallpaper.jpg
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/{{ item }}"
         state: absent
