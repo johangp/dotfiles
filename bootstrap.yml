@@ -20,6 +20,7 @@
         name:
           - i3
           - feh
+          - polybar
         state: present
 
     - name: Install packages with snap
