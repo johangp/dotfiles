@@ -21,6 +21,7 @@
           - i3
           - feh
           - polybar
+          - blueman
         state: present
 
     - name: Install packages with snap
