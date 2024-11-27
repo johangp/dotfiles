@@ -186,7 +186,11 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start Polybar
+# start Polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
+# set a background wallpaper
 exec_always --no-startup-id feh --bg-scale ~/.wallpaper.jpg
+
+# suspend
+bindsym $mod+Shift+s exec systemctl suspend
+
