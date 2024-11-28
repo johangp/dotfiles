@@ -194,3 +194,6 @@ exec_always --no-startup-id feh --bg-scale ~/.wallpaper.jpg
 # suspend
 bindsym $mod+Shift+s exec systemctl suspend
 
+# screenshot
+bindsym $mod+Shift+p exec --no-startup-id sh -c "maim -s | xclip -selection clipboard -t image/png"
+

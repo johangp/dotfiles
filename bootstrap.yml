@@ -22,6 +22,7 @@
           - feh
           - polybar
           - blueman
+          - maim
         state: present
 
     - name: Install packages with snap
