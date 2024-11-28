@@ -37,10 +37,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Use pactl to adjust volume in PulseAudio.
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggl
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q set Master 5%+ unmute
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q set Master 5%- unmute
+bindsym XF86AudioMute exec --no-startup-id amixer -q set Master toggleolume in PulseAudio.
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggl
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -194,5 +193,5 @@ exec_always --no-startup-id feh --bg-scale ~/.wallpaper.jpg
 bindsym $mod+Shift+s exec systemctl suspend
 
 # screenshot
-bindsym Print  exec --no-startup-id sh -c "maim -s | xclip -selection clipboard -t image/png"
+bindsym Print exec --no-startup-id sh -c "maim -s | xclip -selection clipboard -t image/png"
 
