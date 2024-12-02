@@ -195,6 +195,6 @@ bindsym $mod+Shift+s exec systemctl suspend
 # screenshot
 bindsym Print exec --no-startup-id sh -c "maim -s | xclip -selection clipboard -t image/png"
 
-# run compton
+# run picom
 exec --no-startup-id picom --experimental-backends
 

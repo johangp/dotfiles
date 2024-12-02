@@ -23,6 +23,7 @@
           - polybar
           - blueman
           - maim
+          - picom
         state: present
 
     - name: Install packages with snap
