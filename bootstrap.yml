@@ -12,6 +12,7 @@
           - stow
           - tmux
           - zsh
+          - fzf
         state: present
 
     - name: Install i3 packages with apt
