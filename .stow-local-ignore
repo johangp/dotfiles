@@ -6,4 +6,7 @@
 ^/README.md
 ^/\.vagrant
 ^/Vagrantfile
-^/\.config\/pulse\/
+^/\.config\/pulse
+^/\.local\/share\/nvim
+^/\.local\/share\/ranger
+^/\.local\/state
