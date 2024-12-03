@@ -51,7 +51,6 @@
         - .tmux.conf
         - .profile
         - .wallpaper.jpg
-        - .local/share/fonts/
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/{{ item }}"
         state: absent
