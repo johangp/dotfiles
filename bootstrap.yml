@@ -13,6 +13,7 @@
           - tmux
           - zsh
           - fzf
+          - ranger
         state: present
 
     - name: Install i3 packages with apt
