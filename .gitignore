@@ -1,3 +1,7 @@
 .vagrant/
 
 .config/pulse/
+
+.local/state/
+.local/share/nvim/
+.local/share/ranger/
