@@ -17,11 +17,11 @@ and just boring. I decide to automate the installation of all needed packages fo
 and set the dotfiles automatically, so in a brief I can have my configuration running on a new
 fresh install.
 
-´´´zsh
+``zsh
 ansible-playbook -i inventory bootstrap.yml 
+``
 
-´´´
 For testing the ansible playbook, I use Vagrant to automate the test and ensure that everything is 
-going to work on a new machine. You can run ´vagrant up´ for running a new maschine and it will
+going to work on a new machine. You can run `vagrant up`for running a new maschine and it will
 automatically run the Ansible playbook. Then, you can check everything is working running the
-´vagrant ssh´ command.
+`vagrant ssh` command.
