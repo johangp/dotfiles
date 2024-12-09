@@ -17,7 +17,7 @@ and just boring. I decide to automate the installation of all needed packages fo
 and set the dotfiles automatically, so in a brief I can have my configuration running on a new
 fresh install.
 
-``zsh
+``
 ansible-playbook -i inventory bootstrap.yml
 ``
 
