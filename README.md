@@ -18,7 +18,7 @@ and set the dotfiles automatically, so in a brief I can have my configuration ru
 fresh install.
 
 ``zsh
-ansible-playbook -i inventory bootstrap.yml 
+ansible-playbook -i inventory bootstrap.yml
 ``
 
 For testing the ansible playbook, I use Vagrant to automate the test and ensure that everything is 
