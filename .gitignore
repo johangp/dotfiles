@@ -5,3 +5,5 @@
 .local/state/
 .local/share/nvim/
 .local/share/ranger/
+
+.uuid
