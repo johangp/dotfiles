@@ -13,6 +13,11 @@ return {
     end,
   },
 
+  {
+    "tpope/vim-fugitive",
+    lazy = false
+  },
+
   -- {
   -- 	"nvim-treesitter/nvim-treesitter",
   -- 	opts = {
