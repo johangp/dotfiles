@@ -1,12 +1,13 @@
+^/\.gitignore
 ^/inventory
 ^/install.sh
 ^/bootstrap.yml
-^/\.git
-^/\.gitignore
 ^/README.md
-^/\.vagrant
 ^/Vagrantfile
+
 ^/\.config\/pulse
+^/\.git
 ^/\.local\/share\/nvim
 ^/\.local\/share\/ranger
 ^/\.local\/state
+^/\.vagrant
