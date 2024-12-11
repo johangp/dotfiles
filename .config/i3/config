@@ -199,5 +199,5 @@ bindsym Print exec --no-startup-id sh -c "maim -s | xclip -selection clipboard -
 exec --no-startup-id picom --experimental-backends
 
 # run redshift
-exec_always --no-startup-id redshift -l 43.3276495:-2.871778 -t 6500:3500
+exec_always --no-startup-id redshift -l 43.3276495:-2.871778 -t 6500:4000
 
