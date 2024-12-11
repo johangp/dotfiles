@@ -26,6 +26,7 @@
           - blueman
           - maim
           - picom
+          - redshift
         state: present
 
     - name: Install packages with snap
