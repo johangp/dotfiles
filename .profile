@@ -28,3 +28,9 @@ fi
 
 # Set the keyboard layout
 setxkbmap -layout us -variant altgr-intl
+
+# Run arandr configuration if it exists
+if [[ -f ~/.screenlayout/screen.sh ]]; then
+    source ~/.screenlayout/screen.sh
+fi
+
