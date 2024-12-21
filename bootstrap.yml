@@ -14,6 +14,7 @@
           - zsh
           - fzf
           - ranger
+          - direnv
         state: present
 
     - name: Install i3 packages with apt
