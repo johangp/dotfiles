@@ -2,7 +2,7 @@ local options = {
   formatters_by_ft = {
     lua = { "stylua" },
     python = { "ruff_format", "ruff_organize_imports", "ruff_fix" },
-    -- css = { "prettier" },
+    json = { "prettier" },
     -- html = { "prettier" },
   },
 
