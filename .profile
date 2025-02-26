@@ -27,7 +27,10 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 # Set the keyboard layout
-setxkbmap -layout us -variant altgr-intl
+if command -v setxkbmap 2>&1 >/dev/null
+then
+  setxkbmap -layout us -variant altgr-intl
+fi
 
 # Run arandr configuration if it exists
 if [[ -f ~/.screenlayout/screen.sh ]]; then
