@@ -3,6 +3,7 @@ local options = {
     lua = { "stylua" },
     python = { "ruff_format", "ruff_organize_imports", "ruff_fix" },
     json = { "prettier" },
+    bash = { "beautysh" },
     -- html = { "prettier" },
   },
 
