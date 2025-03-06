@@ -15,9 +15,23 @@ return {
 
   {
     "tpope/vim-fugitive",
-    lazy = false
+    lazy = false,
   },
 
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      -- add tsx and treesitter
+      vim.list_extend(opts.ensure_installed, {
+        "bash",
+        "json",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "yaml",
+      })
+    end,
+  },
   -- {
   -- 	"nvim-treesitter/nvim-treesitter",
   -- 	opts = {
