@@ -1,5 +1,12 @@
 return {
   {
+    "LazyVim/LazyVim",
+    lazy = true,
+    config = function()
+      require "lazyvim.util"
+    end,
+  },
+  {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre', -- uncomment for format on save
     opts = require "configs.conform",
