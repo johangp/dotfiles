@@ -6,7 +6,7 @@ local map = vim.keymap.set
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
-map("n", "<leader>g", ":G<cr>")
+-- map("n", "<leader>g", ":G<cr>")
 
 -- Neotest maps
 local neotest = require("neotest")
