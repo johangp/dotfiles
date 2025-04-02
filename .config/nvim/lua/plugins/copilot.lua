@@ -39,7 +39,7 @@ return {
       { "<c-s>", "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
       { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
       {
-        "<leader>aa",
+        "<leader>cc",
         function()
           return require("CopilotChat").toggle()
         end,
@@ -47,7 +47,7 @@ return {
         mode = { "n", "v" },
       },
       {
-        "<leader>ax",
+        "<leader>cx",
         function()
           return require("CopilotChat").reset()
         end,
@@ -55,7 +55,7 @@ return {
         mode = { "n", "v" },
       },
       {
-        "<leader>aq",
+        "<leader>cq",
         function()
           vim.ui.input({
             prompt = "Quick Chat: ",
@@ -69,7 +69,7 @@ return {
         mode = { "n", "v" },
       },
       {
-        "<leader>ap",
+        "<leader>cp",
         function()
           require("CopilotChat").select_prompt()
         end,
