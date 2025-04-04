@@ -140,7 +140,6 @@ return {
     },
 
     config = function()
-
       local mason_dap_ok, mason_dap = pcall(require, "mason-nvim-dap")
       if mason_dap_ok then
         mason_dap.setup {}
@@ -165,6 +164,17 @@ return {
       vscode.json_decode = function(str)
         return vim.json.decode(json.json_strip_comments(str))
       end
+    end,
+  },
+  {
+    "mfussenegger/nvim-dap-python",
+  -- stylua: ignore
+  keys = {
+    { "<leader>dPt", function() require('dap-python').test_method() end, desc = "Debug Method", ft = "python" },
+    { "<leader>dPc", function() require('dap-python').test_class() end, desc = "Debug Class", ft = "python" },
+  },
+    config = function()
+      require("dap-python").setup "python3"
     end,
   },
 }
