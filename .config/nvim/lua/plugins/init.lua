@@ -33,10 +33,12 @@ return {
       -- add tsx and treesitter
       vim.list_extend(opts.ensure_installed, {
         "bash",
+        "hcl",
         "json",
         "markdown",
         "markdown_inline",
         "python",
+        "terraform",
         "yaml",
       })
     end,

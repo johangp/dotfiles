@@ -4,6 +4,8 @@ local options = {
     python = { "ruff_format", "ruff_organize_imports", "ruff_fix" },
     json = { "prettier" },
     bash = { "beautysh" },
+    hcl = { "hclfmt" },
+    terraform = { "terraform_fmt" },
     -- html = { "prettier" },
   },
 
