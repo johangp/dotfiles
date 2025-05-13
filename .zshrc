@@ -115,5 +115,6 @@ alias promote='$HOME/promote.sh'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export DIRENV_LOG_FORMAT=
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
+export DIRENV_LOG_FORMAT=
