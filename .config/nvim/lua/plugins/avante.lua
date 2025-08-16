@@ -38,7 +38,6 @@ local avante_code_readability_analysis = [[
   If there's no issues with code respond with only: <OK>
 ]]
 local avante_optimize_code = "Optimize the following code"
--- local avante_summarize = 'Summarize the following text'
 local avante_explain_code = "Explain the following code"
 local avante_complete_code = "Complete the following codes written in " .. vim.bo.filetype
 local avante_add_docstring = "Add docstring to the following codes"
@@ -100,46 +99,6 @@ return {
         ft = { "markdown", "Avante" },
       },
     },
-    config = function(_, opts)
-      local available_models = {
-        -- ["claude-3.7-sonnet"] = { model = "claude-3.7-sonnet" },
-        -- ["claude-3.7-sonnet🙅‍♂️🛠️"] = { model = "claude-3.7-sonnet", disable_tools = true },
-        ["claude-3.5-sonnet"] = { model = "claude-3.5-sonnet" },
-        -- ["o3-mini-high"] = { model = "o3-mini", reasoning_effort = "high" },
-        -- ["o4-mini-high"] = { model = "o4-mini", reasoning_effort = "high" },
-        -- ["o4-mini-high🙅‍♂️🛠️"] = { model = "o4-mini", reasoning_effort = "high", disable_tools = true },
-        -- ["o3-mini"] = { model = "o3-mini" },
-        -- ["o4-mini"] = { model = "o4-mini" },
-        ["gpt-4o"] = { model = "gpt-4o" },
-        ["gpt-4.1"] = { model = "gpt-4.1" },
-        ["gpt-4.1🙅‍♂️🛠️"] = { model = "gpt-4.1", disable_tools = true },
-        -- ["4.1-mini"] = { model = "gpt-4.1-mini" },
-        -- ["gemini-2.5-pro"] = { model = "gemini-2.5-pro" },
-        -- ["gemini-2.5-pro🙅‍♂️🛠️"] = { model = "gemini-2.5-pro", disable_tools = true },
-        -- ["gemini-2.0-flash"] = { model = "gemini-2.0-flash" },
-        -- ["o2"] = { model = "o2" },
-        -- ["o3"] = { model = "o3" },
-        ["gpt-o1"] = { model = "o1", reasoning_effort = "high" },
-      }
-
-      local function switch_model()
-        local model_keys = vim.tbl_keys(available_models)
-        vim.ui.select(model_keys, { prompt = "Select Avante Model:" }, function(selected)
-          if selected then
-            opts.copilot = available_models[selected]
-            require("avante").setup(opts)
-            print("Switched Copilot model to: " .. selected)
-          else
-            print "Model selection canceled."
-          end
-        end)
-      end
-
-      vim.keymap.set("n", "<leader>am", switch_model, { desc = "Avante: Switch Copilot Model" })
-
-      require("avante").setup(opts)
-      print "Avante.nvim configured. Use <leader>am to switch models at runtime."
-    end,
   },
 
   require("which-key").add {
