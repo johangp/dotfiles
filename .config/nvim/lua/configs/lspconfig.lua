@@ -16,6 +16,23 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+lspconfig.lua_ls.setup = {
+  settings = {
+    Lua = {
+      runtime = {
+        version = "LuaJIT",
+        special = { reload = "require" },
+      },
+      workspace = {
+        library = {
+          vim.fn.expand "$VIMRUNTIME/lua",
+          vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
+          vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
+        },
+      },
+    },
+  },
+}
 -- configuring single server, example: typescript
 -- lspconfig.ts_ls.setup {
 --   on_attach = nvlsp.on_attach,

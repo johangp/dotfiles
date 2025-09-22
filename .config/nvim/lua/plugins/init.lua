@@ -45,4 +45,18 @@ return {
     "sindrets/diffview.nvim",
     lazy = false,
   },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    cmd = "LazyDev",
+    opts = {
+      dependencies = {
+        { "Bilal2453/luvit-meta", lazy = true },
+      },
+      library = {
+        { path = "~/projects/avante.nvim/lua", words = { "avante" } },
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
+  },
 }

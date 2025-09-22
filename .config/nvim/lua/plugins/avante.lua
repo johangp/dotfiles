@@ -57,9 +57,14 @@ return {
           model = "gpt-4.1", -- Default model
         },
       },
+      behaviour = {
+        auto_focus_sidebar = false,
+        auto_approve_tool_permissions = false, -- automatically approve tool permissions requests
+      },
     },
+
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = "make",
+    build = "make", -- for linux and mac
     -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
