@@ -37,3 +37,4 @@ if [[ -f ~/.screenlayout/screen.sh ]]; then
     source ~/.screenlayout/screen.sh
 fi
 
+. "$HOME/.cargo/env"

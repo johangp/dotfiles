@@ -112,9 +112,12 @@ source $ZSH/oh-my-zsh.sh
 alias vim="nvim"
 alias cat='batcat --paging=never'
 alias promote='$HOME/promote.sh'
+alias avante='nvim -c "lua vim.defer_fn(function()require(\"avante.api\").zen_mode()end, 100)"'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 export DIRENV_LOG_FORMAT=
+export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
+

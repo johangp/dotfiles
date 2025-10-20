@@ -1,6 +1,7 @@
 return {
   {
     "zbirenbaum/copilot.lua",
+    lazy = false,
     opts = {
       suggestion = {
         enabled = not vim.g.ai_cmp,
