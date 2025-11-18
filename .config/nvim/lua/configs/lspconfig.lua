@@ -1,41 +1,8 @@
--- load defaults i.e lua_lsp
+-- Use NvChad defaults (diagnostics, capabilities, lua_ls, etc.)
 require("nvchad.configs.lspconfig").defaults()
 
-local lspconfig = require "lspconfig"
+-- list the servers you want
+local servers = { "lua_ls", "ts_ls", "pyright", "html", "cssls", "terraform-ls" }
 
--- EXAMPLE
-local servers = { "html", "cssls", "jsonls", "basedpyright", "ruff" }
-local nvlsp = require "nvchad.configs.lspconfig"
-
--- lsps with default config
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = nvlsp.on_attach,
-    on_init = nvlsp.on_init,
-    capabilities = nvlsp.capabilities,
-  }
-end
-
-lspconfig.lua_ls.setup = {
-  settings = {
-    Lua = {
-      runtime = {
-        version = "LuaJIT",
-        special = { reload = "require" },
-      },
-      workspace = {
-        library = {
-          vim.fn.expand "$VIMRUNTIME/lua",
-          vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
-          vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
-        },
-      },
-    },
-  },
-}
--- configuring single server, example: typescript
--- lspconfig.ts_ls.setup {
---   on_attach = nvlsp.on_attach,
---   on_init = nvlsp.on_init,
---   capabilities = nvlsp.capabilities,
--- }
+-- enable them via the new API
+vim.lsp.enable(servers)
