@@ -2,7 +2,7 @@
 require("nvchad.configs.lspconfig").defaults()
 
 -- list the servers you want
-local servers = { "lua_ls", "ts_ls", "pyright", "html", "cssls", "terraform-ls" }
+local servers = { "lua_ls", "ts_ls", "basedpyright", "html", "cssls", "terraform-ls" }
 
 -- enable them via the new API
 vim.lsp.enable(servers)
