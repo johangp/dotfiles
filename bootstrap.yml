@@ -1,8 +1,33 @@
 ---
 - name: Setup dotfiles
   hosts: default
+  vars:
+    is_macos: "{{ ansible_os_family == 'Darwin' }}"
+    is_debian: "{{ ansible_os_family == 'Debian' }}"
   tasks:
-    - name: Install packages with apt
+    # --- macOS Tasks (Homebrew) ---
+    - name: Install packages with Homebrew (macOS)
+      when: is_macos
+      community.general.homebrew:
+        name:
+          - bat
+          - kitty
+          - stow
+          - tmux
+          - zsh
+          - fzf
+          - ranger
+          - direnv
+          - neovim
+          - ripgrep
+          - fd
+          - gcc
+          - make
+        state: present
+
+    # --- Debian/Linux Tasks (Apt & Snap) ---
+    - name: Install packages with apt (Debian)
+      when: is_debian
       become: yes
       ansible.builtin.apt:
         name:
@@ -15,9 +40,12 @@
           - fzf
           - ranger
           - direnv
+          - ripgrep
+          - fd-find  # Note: 'fd-find' on Debian
         state: present
 
-    - name: Install i3 packages with apt
+    - name: Install i3 packages with apt (Debian only)
+      when: is_debian
       become: yes
       ansible.builtin.apt:
         name:
@@ -30,7 +58,8 @@
           - redshift
         state: present
 
-    - name: Install packages with snap
+    - name: Install Neovim with snap (Debian)
+      when: is_debian
       become: yes
       community.general.snap:
         name:
@@ -38,14 +67,14 @@
         state: present
         classic: true
 
+    # --- Shared Tasks ---
     - name: Run Oh My Zsh installation script
       shell: |
-        if [ ! -d "/home/{{ ansible_user_id }}/.oh-my-zsh" ]; then
+        if [ ! -d "/home/{{ ansible_user_id }}/.oh-my-zsh" ] && [ ! -d "/Users/{{ ansible_user_id }}/.oh-my-zsh" ]; then
           sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
         fi
-      become: no
       environment:
-        ZSH: "/home/{{ ansible_user_id }}/.oh-my-zsh"
+        ZSH: "{{ ansible_env.HOME }}/.oh-my-zsh"
 
     - name: Remove files that will conflict with Stow
       loop:
