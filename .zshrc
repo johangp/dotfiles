@@ -110,7 +110,11 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
-alias cat='batcat --paging=never'
+if command -v bat &> /dev/null; then
+  alias cat='bat --paging=never'
+else
+  alias cat='batcat --paging=never'
+fi
 alias promote='$HOME/promote.sh'
 alias avante='nvim -c "lua vim.defer_fn(function()require(\"avante.api\").zen_mode()end, 100)"'
 
