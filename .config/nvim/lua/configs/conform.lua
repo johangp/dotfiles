@@ -1,7 +1,7 @@
 local options = {
   formatters_by_ft = {
     lua = { "stylua" },
-    python = { "ruff_format", "ruff_organize_imports", "ruff_fix" },
+    python = { "ruff_format", "isort", "ruff_fix" },
     json = { "prettier" },
     bash = { "beautysh" },
     hcl = { "hclfmt" },
