@@ -38,3 +38,8 @@ if [[ -f ~/.screenlayout/screen.sh ]]; then
 fi
 
 . "$HOME/.cargo/env"
+
+# Load secrets.sh if it exists
+if [ -f "$HOME/.secrets.sh" ]; then
+    . "$HOME/.secrets.sh"
+fi
