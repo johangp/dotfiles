@@ -24,5 +24,8 @@ map("n", "<leader>qS", function() require("persistence").select() end, { desc = 
 map("n", "<leader>ql", function() require("persistence").load({ last = true }) end, {desc = "Restore the last session" })
 map("n", "<leader>qd", function() require("persistence").stop() end, { desc = "Stop current session" })
 
+-- NvimTree
+map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle NvimTree" })
+
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
 
