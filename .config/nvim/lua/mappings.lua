@@ -32,29 +32,11 @@ map("n", "<leader>dq", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 
 local diff_quit_group = vim.api.nvim_create_augroup("DiffQuitMapping", { clear = true })
 local function set_diff_quit_map(bufnr)
-  vim.keymap.set("n", "q", function()
-    local ft = vim.bo[bufnr].filetype
-    local is_diffview = ft and ft:lower():find("diffview", 1, true) ~= nil
-
-    if is_diffview then
-      vim.cmd "DiffviewClose"
-      return
-    end
-
-    vim.cmd "quit"
-  end, {
+  vim.keymap.set("n", "q", "<cmd>qa!<cr>", {
     buffer = bufnr,
     silent = true,
-    desc = "Close current diff window",
+    desc = "Quit diff mode instantly",
   })
-  vim.b[bufnr].diff_quit_mapped = true
-end
-
-local function clear_diff_quit_map(bufnr)
-  if vim.b[bufnr].diff_quit_mapped then
-    pcall(vim.keymap.del, "n", "q", { buffer = bufnr })
-    vim.b[bufnr].diff_quit_mapped = nil
-  end
 end
 
 local function should_map_force_quit(bufnr)
@@ -68,8 +50,6 @@ for _, win in ipairs(vim.api.nvim_list_wins()) do
     local bufnr = vim.api.nvim_get_current_buf()
     if should_map_force_quit(bufnr) then
       set_diff_quit_map(vim.api.nvim_get_current_buf())
-    else
-      clear_diff_quit_map(bufnr)
     end
   end)
 end
@@ -79,8 +59,6 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
   callback = function(args)
     if should_map_force_quit(args.buf) then
       set_diff_quit_map(args.buf)
-    else
-      clear_diff_quit_map(args.buf)
     end
   end,
 })

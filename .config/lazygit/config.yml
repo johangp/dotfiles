@@ -1,8 +1,8 @@
 customCommands:
   - key: "E"
-    command: 'nvim -- {{.SelectedLocalFile.Name | quote}} +"DiffviewOpen HEAD -- %" +tabonly'
+    command: 'nvim -d -- "{{.SelectedLocalFile.Name}}"'
     context: "files"
-    description: "Open selected file vs HEAD in Diffview.nvim"
+    description: "Open side-by-side diff in Neovim"
     output: terminal
   - key: "<c-g>"
     command: "nvim +DiffviewOpen +tabonly"
