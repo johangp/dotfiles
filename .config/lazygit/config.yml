@@ -1,0 +1,11 @@
+customCommands:
+  - key: "E"
+    command: 'nvim -d -- "{{.SelectedLocalFile.Name}}"'
+    context: "files"
+    description: "Open side-by-side diff in Neovim"
+    output: terminal
+  - key: "<c-g>"
+    command: "nvim +DiffviewOpen +tabonly"
+    context: "files"
+    description: "Open Diffview.nvim"
+    output: terminal

@@ -27,5 +27,40 @@ map("n", "<leader>qd", function() require("persistence").stop() end, { desc = "S
 -- NvimTree
 map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle NvimTree" })
 
--- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
+map("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Force quit Neovim" })
+map("n", "<leader>dq", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 
+local diff_quit_group = vim.api.nvim_create_augroup("DiffQuitMapping", { clear = true })
+local function set_diff_quit_map(bufnr)
+  vim.keymap.set("n", "q", "<cmd>qa!<cr>", {
+    buffer = bufnr,
+    silent = true,
+    desc = "Quit diff mode instantly",
+  })
+end
+
+local function should_map_force_quit(bufnr)
+  local ft = vim.bo[bufnr].filetype
+  local is_diffview = ft and ft:lower():find("diffview", 1, true) ~= nil
+  return vim.wo.diff or is_diffview
+end
+
+for _, win in ipairs(vim.api.nvim_list_wins()) do
+  vim.api.nvim_win_call(win, function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    if should_map_force_quit(bufnr) then
+      set_diff_quit_map(vim.api.nvim_get_current_buf())
+    end
+  end)
+end
+
+vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
+  group = diff_quit_group,
+  callback = function(args)
+    if should_map_force_quit(args.buf) then
+      set_diff_quit_map(args.buf)
+    end
+  end,
+})
+
+-- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")

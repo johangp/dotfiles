@@ -107,6 +107,7 @@ export VISUAL="nvim"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
+alias lazygit='command lazygit -ucf "$HOME/dotfiles/.config/lazygit/config.yml"'
 if command -v bat &> /dev/null; then
   alias cat='bat --paging=never'
 else
