@@ -122,3 +122,30 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 export DIRENV_LOG_FORMAT=
 export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
+
+# Agentic Engineering Workflow Setup
+work() {
+  local project_name=$1
+  local project_dir=$2
+
+  if [[ -z "$project_name" || -z "$project_dir" ]]; then
+    echo "Usage: work <project_name> <project_dir>"
+    return 1
+  fi
+
+  cd "$project_dir" || return 1
+
+  if ! tmux has-session -t "$project_name" 2>/dev/null; then
+    tmux new-session -d -s "$project_name" -n "Mission"
+    tmux new-window -t "$project_name":2 -n "Hive"
+    tmux new-window -t "$project_name":3 -n "Guardrail"
+    
+    tmux select-window -t "$project_name":1
+  fi
+
+  tmux attach-session -t "$project_name"
+}
+
+alias pa='work automation ~/src/de-trust-platform-automation'
+alias dp='work pipeline ~/src/DE-TrustStream-Data-Pipeline'
+alias si='work infra ~/src/stream-infra'
