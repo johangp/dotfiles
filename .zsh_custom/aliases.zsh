@@ -12,8 +12,6 @@ work() {
 
   if ! tmux has-session -t "$project_name" 2>/dev/null; then
     tmux new-session -d -s "$project_name" -n "Mission"
-    tmux new-window -d -t "$project_name":2 -n "Hive"
-    tmux new-window -d -t "$project_name":3 -n "Guardrail"
   fi
 
   tmux select-window -t "${project_name}:Mission"
