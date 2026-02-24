@@ -153,3 +153,4 @@ work() {
 alias pa='work automation ~/src/de-trust-platform-automation'
 alias dp='work pipeline ~/src/DE-TrustStream-Data-Pipeline'
 alias si='work infra ~/src/stream-infra'
+alias tkill='tmux kill-session'
