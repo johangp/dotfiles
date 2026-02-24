@@ -137,12 +137,17 @@ work() {
 
   if ! tmux has-session -t "$project_name" 2>/dev/null; then
     tmux new-session -d -s "$project_name" -n "Mission"
-    tmux new-window -t "$project_name":2 -n "Hive"
-    tmux new-window -t "$project_name":3 -n "Guardrail"
+    tmux new-window -d -t "$project_name":2 -n "Hive"
+    tmux new-window -d -t "$project_name":3 -n "Guardrail"
   fi
 
-  tmux select-window -t "$project_name":1
-  tmux attach-session -t "$project_name"
+  tmux select-window -t "${project_name}:Mission"
+  
+  if [ -z "$TMUX" ]; then
+    tmux attach-session -t "$project_name"
+  else
+    tmux switch-client -t "$project_name"
+  fi
 }
 
 alias pa='work automation ~/src/de-trust-platform-automation'
