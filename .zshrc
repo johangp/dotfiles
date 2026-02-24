@@ -92,29 +92,8 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR="nvim"
 export VISUAL="nvim"
 
-# Compilation flags
-# export ARCHFLAGS="-arch $(uname -m)"
-
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
-# - $ZSH_CUSTOM/aliases.zsh
-# - $ZSH_CUSTOM/macos.zsh
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias vim="nvim"
-alias lazygit='command lazygit -ucf "$HOME/dotfiles/.config/lazygit/config.yml"'
-if command -v bat &> /dev/null; then
-  alias cat='bat --paging=never'
-else
-  alias cat='batcat --paging=never'
-fi
-alias promote='$HOME/promote.sh'
-alias avante='nvim -c "lua vim.defer_fn(function()require(\"avante.api\").zen_mode()end, 100)"'
+# Load custom aliases
+[[ -f ~/dotfiles/.zsh_custom/aliases.zsh ]] && source ~/dotfiles/.zsh_custom/aliases.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -122,35 +101,3 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 export DIRENV_LOG_FORMAT=
 export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
-
-# Agentic Engineering Workflow Setup
-work() {
-  local project_name=$1
-  local project_dir=$2
-
-  if [[ -z "$project_name" || -z "$project_dir" ]]; then
-    echo "Usage: work <project_name> <project_dir>"
-    return 1
-  fi
-
-  cd "$project_dir" || return 1
-
-  if ! tmux has-session -t "$project_name" 2>/dev/null; then
-    tmux new-session -d -s "$project_name" -n "Mission"
-    tmux new-window -d -t "$project_name":2 -n "Hive"
-    tmux new-window -d -t "$project_name":3 -n "Guardrail"
-  fi
-
-  tmux select-window -t "${project_name}:Mission"
-  
-  if [ -z "$TMUX" ]; then
-    tmux attach-session -t "$project_name"
-  else
-    tmux switch-client -t "$project_name"
-  fi
-}
-
-alias pa='work automation ~/src/de-trust-platform-automation'
-alias dp='work pipeline ~/src/DE-TrustStream-Data-Pipeline'
-alias si='work infra ~/src/stream-infra'
-alias tkill='tmux kill-session'
