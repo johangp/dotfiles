@@ -139,10 +139,9 @@ work() {
     tmux new-session -d -s "$project_name" -n "Mission"
     tmux new-window -t "$project_name":2 -n "Hive"
     tmux new-window -t "$project_name":3 -n "Guardrail"
-    
-    tmux select-window -t "$project_name":1
   fi
 
+  tmux select-window -t "$project_name":1
   tmux attach-session -t "$project_name"
 }
 
