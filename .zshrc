@@ -92,10 +92,16 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR="nvim"
 export VISUAL="nvim"
 
-# Load custom aliases relative to this file
+# Load local env and custom aliases relative to this file
 _zsh_self="${HOME}/.zshrc"
-[[ -f "${_zsh_self:A:h}/.zsh_custom/aliases.zsh" ]] && source "${_zsh_self:A:h}/.zsh_custom/aliases.zsh"
-unset _zsh_self
+_zsh_dir="${_zsh_self:A:h}"
+if [[ -f "${_zsh_dir}/.env" ]]; then
+  set -a
+  source "${_zsh_dir}/.env"
+  set +a
+fi
+[[ -f "${_zsh_dir}/.zsh_custom/aliases.zsh" ]] && source "${_zsh_dir}/.zsh_custom/aliases.zsh"
+unset _zsh_self _zsh_dir
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
