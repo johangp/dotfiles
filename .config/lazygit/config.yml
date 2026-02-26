@@ -1,7 +1,3 @@
-git:
-  paging:
-    externalDiffCommand: nvim -d --
-
 customCommands:
   - key: "E"
     command: 'nvim -d -- "{{.SelectedLocalFile.Name}}"'
