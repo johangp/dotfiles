@@ -1,11 +1,11 @@
 customCommands:
   - key: "E"
-    command: 'nvim -d -- "{{.SelectedLocalFile.Name}}"'
+    command: 'git difftool -y -t nvimdiff -- "{{.SelectedLocalFile.Name}}"'
     context: "files"
     description: "Open side-by-side diff in Neovim"
     output: terminal
   - key: "<c-t>"
-    command: 'nvim -d -- "{{.SelectedLocalFile.Name}}"'
+    command: 'git difftool -y -t nvimdiff -- "{{.SelectedLocalFile.Name}}"'
     context: "files"
     description: "Open side-by-side diff in Neovim"
     output: terminal
