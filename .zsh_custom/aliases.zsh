@@ -23,6 +23,57 @@ work() {
   fi
 }
 
+# Pomodoro Timer
+# Converts durations like 25m, 5s, 1h to seconds for sleep
+_pomo_to_seconds() {
+  local input=$1
+  local num=${input%[smh]}
+  local unit=${input##*[0-9]}
+  case $unit in
+    s) echo $num ;;
+    m) echo $((num * 60)) ;;
+    h) echo $((num * 3600)) ;;
+    *) echo $((num * 60)) ;;
+  esac
+}
+
+pstart() {
+  if [[ -f /tmp/.pomo_pid ]] && kill -0 "$(cat /tmp/.pomo_pid)" 2>/dev/null; then
+    echo "⏳ A timer is already running! Use 'pstop' to cancel it first."
+    return
+  fi
+
+  local duration=${1:-25m}
+  local seconds=$(_pomo_to_seconds "$duration")
+  (sleep "$seconds" && terminal-notifier -title "🍅 Pomodoro" -message "Focus session complete! Take a break." -sound default) &
+  echo $! > /tmp/.pomo_pid
+  echo "🍅 Pomodoro started for $duration. Running in the background..."
+}
+
+pbreak() {
+  if [[ -f /tmp/.pomo_pid ]] && kill -0 "$(cat /tmp/.pomo_pid)" 2>/dev/null; then
+    echo "⏳ A timer is already running! Use 'pstop' to cancel it first."
+    return
+  fi
+
+  local duration=${1:-5m}
+  local seconds=$(_pomo_to_seconds "$duration")
+  (sleep "$seconds" && terminal-notifier -title "☕ Break Over" -message "Time to get back to work!" -sound default) &
+  echo $! > /tmp/.pomo_pid
+  echo "☕ Break started for $duration. Running in the background..."
+}
+
+pstop() {
+  if [[ -f /tmp/.pomo_pid ]] && kill -0 "$(cat /tmp/.pomo_pid)" 2>/dev/null; then
+    kill "$(cat /tmp/.pomo_pid)" 2>/dev/null
+    rm -f /tmp/.pomo_pid
+    echo "🛑 Timer stopped successfully."
+  else
+    rm -f /tmp/.pomo_pid
+    echo "No timer is currently running."
+  fi
+}
+
 alias vim="nvim"
 alias lazygit='command lazygit -ucf "$HOME/dotfiles/.config/lazygit/config.yml"'
 if command -v bat &> /dev/null; then
