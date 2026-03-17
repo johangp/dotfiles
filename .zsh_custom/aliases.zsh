@@ -47,6 +47,7 @@ pstart() {
   local seconds=$(_pomo_to_seconds "$duration")
   (sleep "$seconds" && terminal-notifier -title "🍅 Pomodoro" -message "Focus session complete! Take a break." -sound default) &
   echo $! > /tmp/.pomo_pid
+  disown
   echo "🍅 Pomodoro started for $duration. Running in the background..."
 }
 
@@ -60,6 +61,7 @@ pbreak() {
   local seconds=$(_pomo_to_seconds "$duration")
   (sleep "$seconds" && terminal-notifier -title "☕ Break Over" -message "Time to get back to work!" -sound default) &
   echo $! > /tmp/.pomo_pid
+  disown
   echo "☕ Break started for $duration. Running in the background..."
 }
 
