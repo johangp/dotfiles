@@ -1,8 +1,28 @@
 customCommands:
   - key: "E"
-    command: 'nvim -d -- "{{.SelectedLocalFile.Name}}"'
+    command: 'git difftool -y -t nvimdiff -- "{{.SelectedLocalFile.Name}}"'
     context: "files"
     description: "Open side-by-side diff in Neovim"
+    output: terminal
+  - key: "<c-t>"
+    command: 'git difftool -y -t nvimdiff -- "{{.SelectedLocalFile.Name}}"'
+    context: "files"
+    description: "Open side-by-side diff in Neovim"
+    output: terminal
+  - key: "<c-t>"
+    command: 'nvim +DiffviewOpen {{.SelectedLocalCommit.Hash}}^! +tabonly'
+    context: "commits"
+    description: "View commit in Diffview.nvim"
+    output: terminal
+  - key: "<c-t>"
+    command: 'nvim +DiffviewOpen {{.SelectedStashEntry.Name}} +tabonly'
+    context: "stash"
+    description: "View stash in Diffview.nvim"
+    output: terminal
+  - key: "<c-t>"
+    command: 'nvim +DiffviewOpen {{.SelectedLocalBranch.Name}} +tabonly'
+    context: "localBranches"
+    description: "View branch in Diffview.nvim"
     output: terminal
   - key: "<c-g>"
     command: "nvim +DiffviewOpen +tabonly"
