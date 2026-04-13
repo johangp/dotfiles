@@ -8,6 +8,9 @@ polybar-msg cmd quit
 
 # Launch bar
 echo "---" | tee -a /tmp/polybar1.log 
+if [ "$(hostname)" = "Eros" ]; then
+  export POLYBAR_MODULES_RIGHT="pulseaudio date systray battery backlight"
+fi
 polybar bar 2>&1 | tee -a /tmp/polybar1.log & disown
 
 echo "Bars launched..."

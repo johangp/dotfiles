@@ -30,6 +30,9 @@ fi
 if command -v setxkbmap 2>&1 >/dev/null
 then
   setxkbmap -layout us -variant altgr-intl
+  if [ "$(hostname)" = "Eros" ]; then
+    setxkbmap -option ctrl:swapcaps
+  fi
 fi
 
 # Run arandr configuration if it exists
