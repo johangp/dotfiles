@@ -83,7 +83,7 @@ if command -v bat &> /dev/null; then
 else
   alias cat='batcat --paging=never'
 fi
-alias promote='$HOME/promote.sh'
+alias promote='$HOME/bin/promote.sh'
 alias pa='work automation ~/src/de-trust-platform-automation'
 alias dp='work pipeline ~/src/DE-TrustStream-Data-Pipeline'
 alias si='work infra ~/src/stream-infra'
