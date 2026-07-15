@@ -8,3 +8,6 @@
 
 .uuid
 .aider*
+
+# Machine-local toolchain env (paths/versions specific to this host)
+.env

@@ -36,11 +36,13 @@ then
 fi
 
 # Run arandr configuration if it exists
-if [[ -f ~/.screenlayout/screen.sh ]]; then
-    source ~/.screenlayout/screen.sh
+if [ -f "$HOME/.screenlayout/screen.sh" ]; then
+    . "$HOME/.screenlayout/screen.sh"
 fi
 
-. "$HOME/.cargo/env"
+if [ -f "$HOME/.cargo/env" ]; then
+    . "$HOME/.cargo/env"
+fi
 
 # Load secrets.sh if it exists
 if [ -f "$HOME/.secrets.sh" ]; then

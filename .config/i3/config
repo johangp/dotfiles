@@ -26,6 +26,9 @@ for_window [class="^.*"] border pixel 0
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
 
+# Apply dual-screen layout on login (and re-apply if HDMI is/isn't connected)
+exec --no-startup-id ~/.screenlayout/apply-layout.sh
+
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
