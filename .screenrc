@@ -1,0 +1,14 @@
+# Use a 256-color terminal inside GNU Screen so themes, editors, and prompts
+# do not fall back to the limited 8/16-color "screen" profile.
+term screen-256color
+
+# Preserve background color erase behavior. This prevents full-screen programs
+# from leaving ugly mismatched background blocks after redraws.
+defbce on
+
+# Let full-screen programs use the alternate screen buffer normally.
+altscreen on
+
+# Pass through 256-color foreground/background capabilities for common modern
+# outer terminals.
+termcapinfo xterm*|rxvt*|alacritty*|kitty*|wezterm*|foot*|tmux* Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm
