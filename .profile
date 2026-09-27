@@ -29,7 +29,7 @@ fi
 # Set the keyboard layout
 if command -v setxkbmap 2>&1 >/dev/null
 then
-  setxkbmap -layout us -variant altgr-intl
+  setxkbmap -layout us -variant intl
   if [ "$(hostname)" = "Eros" ]; then
     setxkbmap -option ctrl:swapcaps
   fi
