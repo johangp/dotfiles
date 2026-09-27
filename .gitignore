@@ -16,3 +16,10 @@
 .config/herdr/*
 !.config/herdr/config.toml
 !.config/herdr/open-url.sh
+!.config/herdr/agent-picker.sh
+
+# Stray files created by root GUI sessions (e.g. gparted)
+.local/share/recently-used.xbel
+.local/share/nano/
+.config/gtk-3.0/
+.config/ibus/
