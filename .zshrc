@@ -1,6 +1,23 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
+if [[ -n "${SSH_TTY:-}" ]]; then
+  # Keep SSH startup to the known-compatible prompt stack, while retaining the
+  # environment and aliases needed for normal remote work.
+  export ZSH="$HOME/.oh-my-zsh"
+  ZSH_THEME="robbyrussell"
+  plugins=(git tmux vi-mode fzf uv direnv docker-compose)
+  source "$ZSH/oh-my-zsh.sh"
+
+  export PATH="$HOME/.local/bin:$HOME/.local/opt/node-v24.14.1-linux-x64/bin:$PATH"
+  export EDITOR="nvim"
+  export VISUAL="nvim"
+
+  [[ -f "$HOME/.env" ]] && { set -a; source "$HOME/.env"; set +a; }
+  [[ -f "$HOME/.zsh_custom/aliases.zsh" ]] && source "$HOME/.zsh_custom/aliases.zsh"
+  return
+fi
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -85,6 +102,13 @@ source $ZSH/oh-my-zsh.sh
 
 # Node global binaries
 export PATH="$HOME/.local/opt/node-v24.14.1-linux-x64/bin:$PATH"
+
+# Some terminal sessions are started without the graphical session variables.
+# Restore local X11 clipboard access when the active GDM session is available.
+if [[ -z "${DISPLAY:-}" && -S /tmp/.X11-unix/X0 && -r "/run/user/${UID}/gdm/Xauthority" ]]; then
+  export DISPLAY=:0
+  export XAUTHORITY="/run/user/${UID}/gdm/Xauthority"
+fi
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
