@@ -6,6 +6,11 @@ auto_switch = false
 
 [keys]
 prefix = "ctrl+a"
+# Tabs: prefix-free like ctrl+n/p windows in tmux. Workspaces: prefix+n/p.
+next_tab = "ctrl+n"
+previous_tab = "ctrl+p"
+next_workspace = "prefix+n"
+previous_workspace = "prefix+p"
 
 [ui.sound]
 enabled = false
