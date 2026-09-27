@@ -11,3 +11,8 @@
 
 # Machine-local toolchain env (paths/versions specific to this host)
 .env
+
+# Herdr runtime files (logs, sockets, session state)
+.config/herdr/*
+!.config/herdr/config.toml
+!.config/herdr/open-url.sh

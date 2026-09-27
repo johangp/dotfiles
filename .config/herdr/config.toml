@@ -1,0 +1,19 @@
+onboarding = false
+
+[theme]
+name = "one-dark"
+auto_switch = false
+
+[keys]
+prefix = "ctrl+a"
+
+[ui.sound]
+enabled = false
+
+# Pick a URL from the focused pane and open it in the browser
+[[keys.command]]
+key = "prefix+u"
+type = "popup"
+command = "~/.config/herdr/open-url.sh"
+width = "80%"
+height = "40%"
