@@ -22,3 +22,11 @@ type = "popup"
 command = "~/.config/herdr/open-url.sh"
 width = "80%"
 height = "40%"
+
+# Pick an agent, sorted by urgency (blocked > done > working > idle), and jump to it
+[[keys.command]]
+key = "prefix+a"
+type = "popup"
+command = "~/.config/herdr/agent-picker.sh"
+width = "90%"
+height = "70%"
