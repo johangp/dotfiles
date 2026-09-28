@@ -17,7 +17,7 @@
 !.config/herdr/config.toml
 !.config/herdr/open-url.sh
 !.config/herdr/agent-picker.sh
-!.config/herdr/plugins/
+!.config/herdr/visit-tracker/
 
 # Stray files created by root GUI sessions (e.g. gparted)
 .local/share/recently-used.xbel

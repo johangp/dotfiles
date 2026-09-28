@@ -43,7 +43,7 @@ rows() {
   '
 }
 
-# Visits file written by plugins/visit-tracker/track.sh, as a {pane_id: epoch} object.
+# Visits file written by visit-tracker/track.sh, as a {pane_id: epoch} object.
 visits() {
   local file=${HERDR_VISITS_FILE:-${XDG_STATE_HOME:-$HOME/.local/state}/herdr/visits.tsv}
   [[ -f "$file" ]] || { echo '{}'; return; }

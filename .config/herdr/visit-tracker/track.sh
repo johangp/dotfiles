@@ -12,10 +12,11 @@ pane=${1:-$("$herdr" pane list | jq -r '[.result.panes[] | select(.focused)][0].
 [[ -n "$pane" ]] || exit 0
 
 mkdir -p "$(dirname "$file")"
-exec 9>"$file.lock"
-flock 9
+# Write a private temp file and rename it over the old one: the rename is atomic,
+# so parallel hooks can at worst drop one visit, never corrupt the file.
+tmp=$(mktemp "$file.XXXXXX")
 {
   [[ -f "$file" ]] && awk -F'\t' -v p="$pane" '$1 != p' "$file"
   printf '%s\t%s\n' "$pane" "$(date +%s)"
-} | tail -n 200 >"$file.tmp"
-mv "$file.tmp" "$file"
+} | tail -n 200 >"$tmp"
+mv "$tmp" "$file"

@@ -16,6 +16,7 @@
           - tmux
           - zsh
           - fzf
+          - jq
           - ranger
           - direnv
           - neovim
@@ -39,6 +40,7 @@
           - tmux
           - zsh
           - fzf
+          - jq
           - ranger
           - direnv
           - ripgrep
@@ -97,6 +99,15 @@
         executable: /bin/bash
       changed_when: false
 
+    - name: Install Herdr (terminal workspace manager) via official script
+      ansible.builtin.shell: |
+        if ! command -v herdr >/dev/null 2>&1 && [ ! -x "$HOME/.local/bin/herdr" ]; then
+          curl -fsSL https://herdr.dev/install.sh | sh
+        fi
+      args:
+        executable: /bin/bash
+      changed_when: false
+
     - name: Run Oh My Zsh installation script
       shell: |
         if [ ! -d "/home/{{ ansible_user_id }}/.oh-my-zsh" ] && [ ! -d "/Users/{{ ansible_user_id }}/.oh-my-zsh" ]; then
@@ -119,3 +130,13 @@
       shell: "stow . --target {{ ansible_env.HOME }} --verbose=2"
       register: result
       changed_when: "'LINK: ' in result.stderr"
+
+    - name: Link Herdr visit-tracker plugin (after stow creates ~/.config/herdr/visit-tracker)
+      ansible.builtin.shell: |
+        herdr=$(command -v herdr || echo "$HOME/.local/bin/herdr")
+        if ! "$herdr" plugin list | grep -q 'johan.visit-tracker'; then
+          "$herdr" plugin link "$HOME/.config/herdr/visit-tracker"
+        fi
+      args:
+        executable: /bin/bash
+      changed_when: false
