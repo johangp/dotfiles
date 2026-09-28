@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Pick an agent or a tab without agents with fzf, and jump to it.
-# The agent or tab you are on is pinned as a cyan header (not searchable); the rest
+# The agent or tab you are on is pinned as the header (not searchable); the rest
 # follow by last visit (recorded by the visit-tracker plugin), never-visited ones
 # last by urgency, so the cursor starts on the previous session.
 # Bound to prefix+a as a popup in config.toml.
@@ -38,8 +38,7 @@ rows() {
     | "\($icon) \(.state | pad(7))" as $status
     | "\(.where | pad($w))  \(.agent | pad($a))  \(.title // "")" as $rest
     | "\(if .here then "here" else .kind end)\t\(.id)\t\(.pane)\t"
-      + if .here then "\u001b[36m\($status)  \($rest)\u001b[0m"
-        else "\u001b[\($color)m\($status)\u001b[0m  \($rest)" end
+      + "\u001b[\($color)m\($status)\u001b[0m  \($rest)"
   '
 }
 
