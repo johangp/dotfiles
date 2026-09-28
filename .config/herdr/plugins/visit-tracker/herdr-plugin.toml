@@ -1,0 +1,19 @@
+id = "johan.visit-tracker"
+name = "Visit tracker"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+description = "Record pane visits for the agent picker's last-visited sort"
+# track.sh uses flock, which macOS lacks by default
+platforms = ["linux"]
+
+[[events]]
+on = "pane.focused"
+command = ["./track.sh"]
+
+[[events]]
+on = "tab.focused"
+command = ["./track.sh"]
+
+[[events]]
+on = "workspace.focused"
+command = ["./track.sh"]
