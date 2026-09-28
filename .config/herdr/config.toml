@@ -15,6 +15,9 @@ previous_workspace = "prefix+p"
 [ui.sound]
 enabled = false
 
+[worktrees]
+directory = "~/src/.worktrees"
+
 # Pick a URL from the focused pane and open it in the browser
 [[keys.command]]
 key = "prefix+u"
