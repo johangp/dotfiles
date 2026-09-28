@@ -119,6 +119,10 @@ fi
 export EDITOR="nvim"
 export VISUAL="nvim"
 
+# Use Claude Code's classic renderer so the conversation stays in tmux's native
+# scrollback (wheel scroll, copy-mode, Cmd+f) instead of the alternate screen buffer.
+export CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1
+
 # Load local env and custom aliases relative to this file
 _zsh_self="${HOME}/.zshrc"
 _zsh_dir="${_zsh_self:A:h}"
@@ -148,3 +152,9 @@ if [[ "$(hostname)" == "Eros" ]]; then
 
   export PATH="$HOME/.local/bin:$PATH"
 fi
+
+# direnv
+(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+
+# Machine-local overrides (untracked)
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
