@@ -114,7 +114,7 @@ grep $'^tab\t' <<<"$list" >"$dir/tabs" || true
 printf '%s\n' "$list" >"$dir/all"
 echo 0 >"$dir/active"
 
-selection=$(fzf --ansi --delimiter=$'\t' --with-nth=4.. --no-sort --reverse \
+selection=$(fzf --ansi --delimiter=$'\t' --with-nth=4.. --no-sort --reverse --cycle \
   --prompt='agents> ' --header="$header" \
   --border=top --border-label="$(tab_bar 0)" --border-label-pos=2 \
   --bind "right:transform:$(printf '%q --switch %q 1' "$self" "$dir")" \
