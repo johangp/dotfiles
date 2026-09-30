@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Pick an agent or a tab without agents with fzf, and jump to it.
+# Rows are grouped in picker tabs: agents, tabs without agents, then all; ←/→ switch.
 # The agent or tab you are on is pinned as the header (not searchable); the rest
 # follow by last visit (recorded by the visit-tracker plugin), never-visited ones
 # last by urgency, so the cursor starts on the previous session.
@@ -49,10 +50,41 @@ visits() {
   jq -Rn '[inputs | split("\t") | {(.[0]): (.[1] | tonumber)}] | add // {}' "$file"
 }
 
-if [[ "${1:-}" == "--rows" ]]; then
-  rows
-  exit 0
-fi
+tab_names=(agents tabs all)
+
+# Tab bar for the border label with tab index $1 highlighted.
+tab_bar() {
+  local i bar=""
+  for i in "${!tab_names[@]}"; do
+    if ((i == $1)); then
+      bar+=$'\e[7m'" ${tab_names[i]} "$'\e[0m'
+    else
+      bar+=" ${tab_names[i]} "
+    fi
+    bar+=" "
+  done
+  printf ' %s←/→ ' "$bar"
+}
+
+# fzf transform for ←/→: move the active tab in $1 by $2 (+1/-1) and reload its rows.
+switch_tab() {
+  local dir=$1 count=${#tab_names[@]} active
+  active=$((($(<"$dir/active") + $2 + count) % count))
+  echo "$active" >"$dir/active"
+  printf 'reload(cat %q)+first+change-prompt(%s> )+change-border-label:%s' \
+    "$dir/${tab_names[active]}" "${tab_names[active]}" "$(tab_bar "$active")"
+}
+
+case "${1:-}" in
+  --rows)
+    rows
+    exit 0
+    ;;
+  --switch)
+    switch_tab "$2" "$3"
+    exit 0
+    ;;
+esac
 
 list=$(jq -n \
   --argjson agents "$(herdr agent list | jq '.result.agents')" \
@@ -74,10 +106,21 @@ if [[ -z "$list" ]]; then
   exit 0
 fi
 
+self=$(readlink -f "${BASH_SOURCE[0]}")
+dir=$(mktemp -d)
+trap 'rm -rf "$dir"' EXIT
+grep $'^agent\t' <<<"$list" >"$dir/agents" || true
+grep $'^tab\t' <<<"$list" >"$dir/tabs" || true
+printf '%s\n' "$list" >"$dir/all"
+echo 0 >"$dir/active"
+
 selection=$(fzf --ansi --delimiter=$'\t' --with-nth=4.. --no-sort --reverse \
-  --prompt='agent> ' --header="$header" \
+  --prompt='agents> ' --header="$header" \
+  --border=top --border-label="$(tab_bar 0)" --border-label-pos=2 \
+  --bind "right:transform:$(printf '%q --switch %q 1' "$self" "$dir")" \
+  --bind "left:transform:$(printf '%q --switch %q -1' "$self" "$dir")" \
   --preview='herdr pane read {3} --lines 30' --preview-window='down,60%' \
-  <<<"$list") || exit 0
+  <"$dir/agents") || exit 0
 
 IFS=$'\t' read -r kind id _ <<<"$selection"
 if [[ "$kind" == "tab" ]]; then
