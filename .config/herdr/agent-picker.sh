@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Pick an agent or a tab without agents with fzf, and jump to it.
-# Rows are grouped in picker tabs: agents, tabs without agents, then all; ←/→ switch.
+# Rows are grouped in picker tabs: agents, tabs without agents, then all; h/l, ←/→ or Tab switch.
+# Vim-style: opens in normal mode (j/k, g/G, ctrl-d/u, dd clears the filter, q/Esc quit);
+# i edits the filter and / starts a new one; Esc or jk returns to normal mode.
 # The agent or tab you are on is pinned as the header (not searchable); the rest
 # follow by last visit (recorded by the visit-tracker plugin), never-visited ones
 # last by urgency, so the cursor starts on the previous session.
@@ -54,7 +56,7 @@ visits() {
 
 tab_names=(agents tabs all)
 
-# Tab bar for the border label with tab index $1 highlighted.
+# Tab bar for the border label with tab index $1 highlighted and the active filter $2.
 tab_bar() {
   local i bar=""
   for i in "${!tab_names[@]}"; do
@@ -65,16 +67,90 @@ tab_bar() {
     fi
     bar+=" "
   done
-  printf ' %s←/→ ' "$bar"
+  [[ -n "${2:-}" ]] && bar+="/$2  "
+  printf ' %s ' "$bar"
 }
 
-# fzf transform for ←/→: move the active tab in $1 by $2 (+1/-1) and reload its rows.
+# fzf transform for view switching: move the active tab in $1 by $2 (+1/-1) and reload its rows.
 switch_tab() {
   local dir=$1 count=${#tab_names[@]} active
   active=$((($(<"$dir/active") + $2 + count) % count))
   echo "$active" >"$dir/active"
   printf 'reload(cat %q)+first+change-prompt(%s> )+change-border-label:%s' \
-    "$dir/${tab_names[active]}" "${tab_names[active]}" "$(tab_bar "$active")"
+    "$dir/${tab_names[active]}" "${tab_names[active]}" "$(tab_bar "$active" "${FZF_QUERY:-}")"
+}
+
+now_ms() {
+  local t=${EPOCHREALTIME//[.,]/}
+  echo $((t / 1000))
+}
+
+# True when marker file $1 was written less than $2 ms ago.
+recent() {
+  local last
+  last=$(cat "$1" 2>/dev/null || echo 0)
+  (($(now_ms) - last < $2))
+}
+
+# fzf transform for vim-style keys: normal mode while the input is hidden, insert mode while shown.
+key_action() {
+  local dir=$1 key=$2 query=${FZF_QUERY:-} active
+  active=$(<"$dir/active")
+  if [[ "${FZF_INPUT_STATE:-}" == enabled ]]; then
+    case "$key" in
+      esc) printf 'hide-input+change-border-label:%s' "$(tab_bar "$active" "$query")" ;;
+      left) echo backward-char ;;
+      right) echo forward-char ;;
+      ctrl-d) echo delete-char ;;
+      ctrl-u) echo unix-line-discard ;;
+      j) now_ms >"$dir/j"; echo 'put(j)' ;;
+      k)
+        if [[ "$query" == *j ]] && recent "$dir/j" 300; then
+          touch "$dir/hide"
+          echo backward-delete-char
+        else
+          echo 'put(k)'
+        fi
+        ;;
+      *) printf 'put(%s)' "$key" ;;
+    esac
+    return
+  fi
+  case "$key" in
+    j) echo down ;;
+    k) echo up ;;
+    g) echo first ;;
+    G) echo last ;;
+    ctrl-d) echo half-page-down ;;
+    ctrl-u) echo half-page-up ;;
+    h | left) switch_tab "$dir" -1 ;;
+    l | right) switch_tab "$dir" 1 ;;
+    i) echo show-input ;;
+    /) printf 'show-input+clear-query+change-border-label:%s' "$(tab_bar "$active" "")" ;;
+    d)
+      if recent "$dir/d" 500; then
+        rm -f "$dir/d"
+        touch "$dir/hide"
+        echo show-input+clear-query
+      else
+        now_ms >"$dir/d"
+        echo ignore
+      fi
+      ;;
+    q | esc) echo abort ;;
+    *) echo ignore ;;
+  esac
+}
+
+# Second transform after d and k: fzf drops query edits made in the same transform as hide-input.
+hide_after_edit() {
+  local dir=$1
+  if [[ -f "$dir/hide" ]]; then
+    rm -f "$dir/hide"
+    printf 'hide-input+change-border-label:%s' "$(tab_bar "$(<"$dir/active")" "${FZF_QUERY:-}")"
+  else
+    echo ignore
+  fi
 }
 
 case "${1:-}" in
@@ -84,6 +160,14 @@ case "${1:-}" in
     ;;
   --switch)
     switch_tab "$2" "$3"
+    exit 0
+    ;;
+  --key)
+    key_action "$2" "$3"
+    exit 0
+    ;;
+  --after)
+    hide_after_edit "$2"
     exit 0
     ;;
 esac
@@ -116,11 +200,18 @@ grep $'^tab\t' <<<"$list" >"$dir/tabs" || true
 printf '%s\n' "$list" >"$dir/all"
 echo 0 >"$dir/active"
 
-selection=$(fzf --ansi --delimiter=$'\t' --with-nth=4.. --no-sort --reverse --cycle \
+binds=()
+for key in j k g G h l i q d / esc left right ctrl-d ctrl-u; do
+  action="transform($(printf '%q --key %q %q' "$self" "$dir" "$key"))"
+  [[ "$key" == d || "$key" == k ]] && action+="+transform($(printf '%q --after %q' "$self" "$dir"))"
+  binds+=(--bind "$key:$action")
+done
+selection=$(fzf --ansi --delimiter=$'\t' --with-nth=4.. --no-sort --reverse --cycle --no-input \
   --prompt='agents> ' --header="$header" \
   --border=top --border-label="$(tab_bar 0)" --border-label-pos=2 \
-  --bind "right:transform:$(printf '%q --switch %q 1' "$self" "$dir")" \
-  --bind "left:transform:$(printf '%q --switch %q -1' "$self" "$dir")" \
+  "${binds[@]}" \
+  --bind "tab:transform:$(printf '%q --switch %q 1' "$self" "$dir")" \
+  --bind "btab:transform:$(printf '%q --switch %q -1' "$self" "$dir")" \
   --preview='herdr pane read {3} --lines 30' --preview-window='down,60%' \
   <"$dir/agents") || exit 0
 
