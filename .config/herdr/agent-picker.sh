@@ -8,6 +8,8 @@
 # `agent-picker.sh --rows` only turns {agents,panes,workspaces,tabs,visits} JSON on stdin
 # into "kind<TAB>id<TAB>preview-pane<TAB>row" lines; kind is agent, tab or here (current).
 set -euo pipefail
+# Popups inherit the herdr server's PATH, which can miss user-installed herdr and fzf.
+PATH="$HOME/.local/bin:$PATH"
 
 rows() {
   jq -r '
