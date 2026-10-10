@@ -33,3 +33,6 @@ type = "popup"
 command = "~/.config/herdr/agent-picker.sh"
 width = "90%"
 height = "70%"
+
+[experimental]
+kitty_graphics = true
